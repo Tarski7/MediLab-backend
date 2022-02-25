@@ -1,17 +1,22 @@
 import express from 'express';
+import mongoose from 'mongoose'
 import { router } from './config/routes'
 
-//const express = require('express');
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/medilab');
+
 const app = express();
 const PORT = 3000;
 
-app.get('/', (req, res) => {
-    res.json({
-        msg: 'Welcome to MediLab backend'
+app.use('/api', router);
+app.use((error, req, res, next) => {
+    res.status(error.status || 500);
+    return res.json({
+        error: {
+            message: error.message
+        }
     });
 });
-
-app.use('/api', router);
 
 app.listen(PORT, () => {
     console.log(`Server is running at port ${PORT}`);

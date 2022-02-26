@@ -1,29 +1,73 @@
 import TestResult from "../models/test-result.model";
-
-const testResults = [
-    { _id: "1", name: "Morfologia", date: new Date() },
-    { _id: "2", name: "Spirometria", date: new Date() },
-    { _id: "3", name: "Test antygenowy Covid-19", date: new Date() }
-];
+import Joi from 'joi';
+import HttpStatus from 'http-status-codes';
 
 export default {
     findAll(req, res, next) {
-        res.json(testResults);
+        TestResult.find().then(testResults => res.json(testResults))
+            .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err));
     },
-    create(req, res) {
-        let {name, date, price, description} = req.body;
-        if (!name) {
-            return res.status(400).json({err: 'name is required field'});
-        }
-        if (!date) {
-            return res.status(400).json({err: 'date is required field'});
-        }
-        if (!price) {
-            return res.status(400).json({err: 'price is required field'});
-        }
+
+    create(req, res, next) {
+        const schema = Joi.object().keys({
+            name: Joi.string().required(),
+            date: Joi.date().required(),
+            price: Joi.number().required(),
+            description: Joi.string().optional()
+        });
         
-        TestResult.create({name, date, price, description})
+        const { error, value } = schema.validate(req.body);
+        if (error && error.details) {
+            return res.status(HttpStatus.BAD_REQUEST).json(error);
+        }
+
+        TestResult.create(value)
             .then(testResult => res.json(testResult))
-            .catch(err => res.status(500).json(err));
+            .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err));
+    },
+
+    findOne(req, res) {
+        let {id} = req.params;
+        TestResult.findById(id)
+            .then(testResult => {
+                if (!testResult) {
+                    return res.status(HttpStatus.NOT_FOUND).json({err: 'Test result not found'});
+                }
+
+                return res.json(testResult);
+            })
+            .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err));
+    },
+
+    delete(req, res) {
+        let {id} = req.params;
+        TestResult.findByIdAndRemove(id)
+            .then(testResult => {
+                if (!testResult) {
+                    return res.status(HttpStatus.NOT_FOUND).json({err: 'Test result not found'});
+                }
+
+                return res.json(testResult);
+            })
+            .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err));
+    },
+
+    update(req, res) {
+        let {id} = req.params;
+        const schema = Joi.object().keys({
+            name: Joi.string().optional(),
+            date: Joi.date().optional(),
+            price: Joi.number().optional(),
+            description: Joi.string().optional()
+        });
+        
+        const { error, value } = schema.validate(req.body);
+        if (error && error.details) {
+            return res.status(HttpStatus.BAD_REQUEST).json(error);
+        }
+
+        TestResult.findOneAndUpdate({_id: id}, value, {new: true})
+            .then(testResult => res.json(testResult))
+            .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err));
     }
 }

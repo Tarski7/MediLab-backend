@@ -63,6 +63,20 @@ const swaggerOptions = {
                     tags: ["TestResults"],
                     summary: "Find all test results from the server",
                     description: "All test results",
+                    parameters: [
+                        {
+                            name: "page",
+                            type: "integer",
+                            description: "Set the page for pagination",
+                            in: "query"
+                        },
+                        {
+                            name: "perPage",
+                            type: "integer",
+                            description: "Set the limit for the records",
+                            in: "query"
+                        }
+                    ],
                     responses: {
                         200: {
                             description: "OK",
@@ -190,6 +204,18 @@ const swaggerOptions = {
                         type: "array",
                         $ref: "#definitions/TestResult"
                     }
+                },
+                total: {
+                    type: "integer"
+                },
+                page: {
+                    type: "integer"
+                },
+                pages: {
+                    type: "integer"
+                },
+                limit : {
+                    type: "integer"
                 }
             }
         }

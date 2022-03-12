@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongoosePaginate from 'mongoose-paginate';
 
 const { Schema } = mongoose;
 
@@ -19,5 +20,7 @@ const TestResultSchema = new Schema({
         type: String
     }
 });
+
+TestResultSchema.plugin(mongoosePaginate);
 
 export default mongoose.model('TestResult', TestResultSchema);

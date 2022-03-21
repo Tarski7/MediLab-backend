@@ -4,13 +4,25 @@ import HttpStatus from 'http-status-codes';
 
 export default {
     findAll(req, res, next) {
-        const { page = 1, perPage = 10 } = req.query;
+        const { page = 1, perPage = 10, filter, sortField, sortDir } = req.query;
         const options = {
             page: parseInt(page, 10),
-            limit: parseInt(perPage, 10)
+            limit: parseInt(perPage, 10),
         };
 
-        TestResult.paginate({}, options).then(testResults => res.json(testResults))
+        const query = {};
+        if (filter) {
+            query.name = {
+                $regex: filter
+            };
+        }
+        if (sortField && sortDir) {
+            options.sort = {
+                [sortField]: sortDir
+            }
+        }
+        console.log(options);
+        TestResult.paginate(query, options).then(testResults => res.json(testResults))
             .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err));
     },
 

@@ -75,6 +75,24 @@ const swaggerOptions = {
                             type: "integer",
                             description: "Set the limit for the records",
                             in: "query"
+                        },
+                        {
+                            name: "filter",
+                            type: "string",
+                            description: "Filter the test results by name",
+                            in: "query"
+                        },
+                        {
+                            name: "sortField",
+                            type: "string",
+                            description: "Define the sortField for sorting i.e. name, date, price",
+                            in: "query"
+                        },
+                        {
+                            name: "sortDir",
+                            type: "string",
+                            description: "Define the sortDir i.e. desc, asc",
+                            in: "query"
                         }
                     ],
                     responses: {

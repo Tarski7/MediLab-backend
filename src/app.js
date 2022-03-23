@@ -1,8 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import { router } from './config/routes';
 import logger from 'morgan';
 import cors from 'cors';
+import { restRouter } from './api';
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/medilab');
@@ -296,7 +296,7 @@ app.use(logger('dev'));
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-app.use('/api', router);
+app.use('/api', restRouter);
 app.use((req, res, next) => {
     const error = new Error('Not found');
     error.message = 'Invalid route';

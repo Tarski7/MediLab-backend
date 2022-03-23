@@ -1,5 +1,5 @@
 import express from 'express';
-import testResultController from '../api/controllers/test-result.controller';
+import testResultController from '../api/resources/test-result/test-result.controller';
 
 export const router = express.Router();
 

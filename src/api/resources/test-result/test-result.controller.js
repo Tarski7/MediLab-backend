@@ -1,4 +1,4 @@
-import TestResult from "../models/test-result.model";
+import TestResult from "./test-result.model";
 import Joi from 'joi';
 import HttpStatus from 'http-status-codes';
 

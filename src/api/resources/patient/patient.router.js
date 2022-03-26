@@ -10,3 +10,4 @@ patientRouter.route('/')
 patientRouter.route('/:id')
     .get(patientController.findOne)
     .delete(patientController.delete)
+    .put(patientController.update);

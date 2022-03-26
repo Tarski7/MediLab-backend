@@ -24,7 +24,11 @@ const swaggerOptions = {
             tags: [
                 { 
                     name: "TestResults",
-                    description: "API for Test results"
+                    description: "API for test results"
+                },
+                { 
+                    name: "Patients",
+                    description: "API for patients"
                 }
             ],
             schemes: ["http"],
@@ -172,11 +176,119 @@ const swaggerOptions = {
                         }
                     }
                 }
-            }
+            },
+            "/patients": {
+                post: {
+                    tags: ["Patients"],
+                    summary: "Create new patient",
+                    description: "Create new patient in the system",
+                    parameters: [
+                        {
+                            name: "patient",
+                            description: "Patient that we want to create",
+                            in: "body",
+                            required: true,
+                            schema: {
+                                $ref: "#definitions/Patient"
+                            }
+                        }
+                    ],
+                    produces: ["application/json"],
+                    responses: {
+                        200: {
+                            description: "New patient has been created",
+                            schema: {
+                                $ref: "#definitions/Patient"
+                            }
+                        }
+                    }
+                },
+                get: {
+                    tags: ["Patients"],
+                    summary: "Find all patients from the server",
+                    description: "All patients",
+                    responses: {
+                        200: {
+                            description: "OK",
+                            content: "application/json",
+                            schema: {
+                                $ref: "#definitions/Patients"
+                            }
+                        }
+                    }
+                }
+            },
+            "/patients/{id}": {
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        description: "Id of the patient",
+                        type: "string"
+                    }
+                ],
+                get: {
+                    tags: ["Patients"],
+                    description: "Find patient by id",
+                    summary: "Find single patient",
+                    responses: {
+                        200: {
+                            description: "Patient has been found",
+                            schema: {
+                                $ref: "#definitions/Patient"
+                            }
+                        },
+                        404: {
+                            description: "Patient not found"
+                        }
+                    }
+                },
+                delete: {
+                    tags: ["Patients"],
+                    description: "Delete patient by id",
+                    summary: "Delete single patient",
+                    responses: {
+                        200: {
+                            description: "Patient has been deleted",
+                            schema: {
+                                $ref: "#definitions/Patient"
+                            }
+                        },
+                        404: {
+                            description: "Patient not found"
+                        }
+                    }
+                },
+                put: {
+                    tags: ["Patients"],
+                    summary: "Update patient",
+                    description: "Update patient in the system",
+                    parameters: [
+                        {
+                            name: "patient",
+                            description: "Patient that we want to update",
+                            in: "body",
+                            required: true,
+                            schema: {
+                                $ref: "#definitions/UpdatePatient"
+                            }
+                        }
+                    ],
+                    produces: ["application/json"],
+                    responses: {
+                        200: {
+                            description: "Patient has been updated",
+                            schema: {
+                                $ref: "#definitions/Patient"
+                            }
+                        }
+                    }
+                }
+            },
         },
         definitions: {
             TestResult: {
-                required: ["name", "date", "price"],
+                required: ["name", "date", "price", "patient"],
                 properties: {
                     _id: {
                         "type": "string",
@@ -195,6 +307,9 @@ const swaggerOptions = {
                     },
                     description: {
                         "type": "string"
+                    },
+                    patient: {
+                        "type": "string"
                     }
                 }
             },
@@ -212,6 +327,9 @@ const swaggerOptions = {
                         "format": "float"
                     },
                     description: {
+                        "type": "string"
+                    },
+                    patient: {
                         "type": "string"
                     }
                 }
@@ -235,57 +353,69 @@ const swaggerOptions = {
                 limit : {
                     type: "integer"
                 }
+            },
+            Patient: {
+                required: ["firstName", "lastName", "dateOfBirth", "pesel", "email", "phoneNo"],
+                properties: {
+                    _id: {
+                        "type": "string",
+                        "uniqueItems": true
+                    },
+                    firstName: {
+                        "type": "string"
+                    },
+                    lastName: {
+                        "type": "string"
+                    },
+                    dateOfBirth: {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    pesel: {
+                        "type": "integer"
+                    },
+                    email: {
+                        "type": "string"
+                    },
+                    phoneNo: {
+                        "type": "integer"
+                    }
+                }
+            },
+            Patients: {
+                properties: {
+                    docs: {
+                        type: "array",
+                        $ref: "#definitions/Patient"
+                    }
+                }
+            },
+            UpdatePatient: {
+                properties: {
+                    firstName: {
+                        "type": "string"
+                    },
+                    lastName: {
+                        "type": "string"
+                    },
+                    dateOfBirth: {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    pesel: {
+                        "type": "integer"
+                    },
+                    email: {
+                        "type": "string"
+                    },
+                    phoneNo: {
+                        "type": "integer"
+                    }
+                }
             }
         }
     },
-    apis: ["app.js"],
-    /*definitions: {
-        TestResult: {
-            required: ["name", "date", "price"],
-            properties: {
-                _id: {
-                    "type": "string",
-                    "uniqueItems": true
-                },
-                name: {
-                    "type": "string"
-                },
-                date: {
-                    "type": "string",
-                    "format": "date"
-                },
-                price: {
-                    "type": "string"
-                },
-                description: {
-                    "type": "string",
-                    "format": "date"
-                }
-            }
-        },
-        UpdateTestResult: {
-            properties: {
-                name: {
-                    "type": "string"
-                },
-                date: {
-                    "type": "string",
-                    "format": "date"
-                },
-                price: {
-                    "type": "number",
-                    "format": "float"
-                },
-                description: {
-                    "type": "string"
-                }
-            }
-        },
-        TestResults: {
-            type: "array",
-            $ref: "#definitions/TestResult"
-        }
-    }*/
+    apis: ["app.js"]
 };
 
 app.use(express.json());

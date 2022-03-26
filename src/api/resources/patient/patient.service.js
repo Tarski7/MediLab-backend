@@ -17,5 +17,23 @@ export default {
         }
 
         return { value };
+    },
+
+    validateUpdateSchema(body) {
+        const schema = Joi.object().keys({
+            firstName: Joi.string().optional(),
+            lastName: Joi.string().optional(),
+            dateOfBirth: Joi.date().optional(),
+            pesel: Joi.number().optional(),
+            email: Joi.string().email().optional(),
+            phoneNo: Joi.number().optional()
+        });
+
+        const { error, value } = schema.validate(body);
+        if (error && error.details) {
+            return { error };
+        }
+
+        return { value };
     }
 }

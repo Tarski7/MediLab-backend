@@ -8,6 +8,7 @@ export default {
         const options = {
             page: parseInt(page, 10),
             limit: parseInt(perPage, 10),
+            populate: 'patient'
         };
 
         const query = {};
@@ -31,7 +32,8 @@ export default {
             name: Joi.string().required(),
             date: Joi.date().required(),
             price: Joi.number().required(),
-            description: Joi.string().optional()
+            description: Joi.string().optional(),
+            patient: Joi.string().required()
         });
         
         const { error, value } = schema.validate(req.body);
@@ -76,7 +78,8 @@ export default {
             name: Joi.string().optional(),
             date: Joi.date().optional(),
             price: Joi.number().optional(),
-            description: Joi.string().optional()
+            description: Joi.string().optional(),
+            patient: Joi.string().optional()
         });
         
         const { error, value } = schema.validate(req.body);

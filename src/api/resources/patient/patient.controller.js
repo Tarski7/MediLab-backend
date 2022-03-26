@@ -49,5 +49,25 @@ export default {
         } catch(err) {
             return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err);
         }
+    },
+
+    async update(req, res) {
+        try {
+            const {value, error} = patientService.validateUpdateSchema(req.body);
+
+            if (error && error.details) {
+                return res.status(HttpStatus.BAD_REQUEST).json(error);
+            }
+
+            const patient = await Patient.findOneAndUpdate(
+                {_id: req.params.id}, 
+                value, 
+                {new: true }
+            );
+
+            return res.json(patient);
+        } catch(err) {
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err);
+        }
     }
 }

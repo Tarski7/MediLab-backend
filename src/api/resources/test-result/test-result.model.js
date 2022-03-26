@@ -18,6 +18,11 @@ const TestResultSchema = new Schema({
     },
     description: {
         type: String
+    },
+    patient: {
+        ref: 'Patient',
+        type: Schema.Types.ObjectId,
+        required: true
     }
 });
 

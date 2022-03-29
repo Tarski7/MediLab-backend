@@ -1,14 +1,14 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import logger from 'morgan';
-import cors from 'cors';
 import { restRouter } from './api';
+import { setGlobalMiddleware } from './api/middlewares/global-middleware';
+import { devConfig } from './config/env/development';
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/medilab');
+mongoose.connect(`mongodb://localhost/${devConfig.database}`);
 
 const app = express();
-const PORT = 3000;
+const PORT = devConfig.port;
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
@@ -418,13 +418,10 @@ const swaggerOptions = {
     apis: ["app.js"]
 };
 
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-app.use(cors());
-app.use(logger('dev'));
-
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+setGlobalMiddleware(app);
 
 app.use('/api', restRouter);
 app.use((req, res, next) => {

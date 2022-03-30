@@ -29,6 +29,10 @@ const swaggerOptions = {
                 { 
                     name: "Patients",
                     description: "API for patients"
+                },
+                { 
+                    name: "Users",
+                    description: "API for users"
                 }
             ],
             schemes: ["http"],
@@ -51,6 +55,13 @@ const swaggerOptions = {
                             schema: {
                                 $ref: "#definitions/TestResult"
                             }
+                        },
+                        {
+                            name: "authorization",
+                            description: "Access token to authorize the user",
+                            in: "header",
+                            type: "string",
+                            required: true
                         }
                     ],
                     produces: ["application/json"],
@@ -97,6 +108,13 @@ const swaggerOptions = {
                             type: "string",
                             description: "Define the sortDir i.e. desc, asc",
                             in: "query"
+                        },
+                        {
+                            name: "authorization",
+                            description: "Access token to authorize the user",
+                            in: "header",
+                            type: "string",
+                            required: true
                         }
                     ],
                     responses: {
@@ -117,6 +135,13 @@ const swaggerOptions = {
                         in: "path",
                         description: "Id of the test result",
                         type: "string"
+                    },
+                    {
+                        name: "authorization",
+                        description: "Access token to authorize the user",
+                        in: "header",
+                        type: "string",
+                        required: true
                     }
                 ],
                 get: {
@@ -191,6 +216,13 @@ const swaggerOptions = {
                             schema: {
                                 $ref: "#definitions/Patient"
                             }
+                        },
+                        {
+                            name: "authorization",
+                            description: "Access token to authorize the user",
+                            in: "header",
+                            type: "string",
+                            required: true
                         }
                     ],
                     produces: ["application/json"],
@@ -207,6 +239,15 @@ const swaggerOptions = {
                     tags: ["Patients"],
                     summary: "Find all patients from the server",
                     description: "All patients",
+                    parameters: [
+                        {
+                            name: "authorization",
+                            description: "Access token to authorize the user",
+                            in: "header",
+                            type: "string",
+                            required: true
+                        }
+                    ],
                     responses: {
                         200: {
                             description: "OK",
@@ -225,6 +266,13 @@ const swaggerOptions = {
                         in: "path",
                         description: "Id of the patient",
                         type: "string"
+                    },
+                    {
+                        name: "authorization",
+                        description: "Access token to authorize the user",
+                        in: "header",
+                        type: "string",
+                        required: true
                     }
                 ],
                 get: {
@@ -285,6 +333,60 @@ const swaggerOptions = {
                     }
                 }
             },
+            "/users/signup": {
+                post: {
+                    tags: ["Users"],
+                    summary: "Create new account",
+                    description: "Create new user in the system",
+                    parameters: [
+                        {
+                            name: "user",
+                            description: "User that we want to create",
+                            in: "body",
+                            required: true,
+                            schema: {
+                                $ref: "#definitions/User"
+                            }
+                        }
+                    ],
+                    produces: ["application/json"],
+                    responses: {
+                        200: {
+                            description: "Signup successful",
+                            schema: {
+                                $ref: "#definitions/UserSignupRsp"
+                            }
+                        }
+                    }
+                }
+            },
+            "/users/login": {
+                post: {
+                    tags: ["Users"],
+                    summary: "Login into account",
+                    description: "Login user in the system",
+                    parameters: [
+                        {
+                            name: "user",
+                            description: "User credentials",
+                            in: "body",
+                            required: true,
+                            schema: {
+                                $ref: "#definitions/User"
+                            }
+                        }
+                    ],
+                    produces: ["application/json"],
+                    responses: {
+                        200: {
+                            description: "Login successful",
+                            schema: {
+                                $ref: "#definitions/UserLoginRsp"
+                            }
+                        }
+                    }
+                }
+            }
         },
         definitions: {
             TestResult: {
@@ -410,6 +512,41 @@ const swaggerOptions = {
                     },
                     phoneNo: {
                         "type": "integer"
+                    }
+                }
+            },
+            User: {
+                required: ["email", "password"],
+                properties: {
+                    _id: {
+                        "type": "string",
+                        "uniqueItems": true
+                    },
+                    email: {
+                        "type": "string"
+                    },
+                    password: {
+                        "type": "string"
+                    }
+                }
+            },
+            UserSignupRsp: {
+                properties: {
+                    success: {
+                        "type": "boolean"
+                    },
+                    message: {
+                        "type": "string"
+                    }
+                }
+            },
+            UserLoginRsp: {
+                properties: {
+                    success: {
+                        "type": "boolean"
+                    },
+                    token: {
+                        "type": "string"
                     }
                 }
             }

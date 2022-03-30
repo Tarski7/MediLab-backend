@@ -1,13 +1,14 @@
 import express from "express";
 import patientController from "./patient.controller";
+import passport from 'passport';
 
 export const patientRouter = express.Router();
 
 patientRouter.route('/')
-    .post(patientController.create)
-    .get(patientController.findAll);
+    .post(passport.authenticate('jwt', {session: false}), patientController.create)
+    .get(passport.authenticate('jwt', {session: false}), patientController.findAll);
 
 patientRouter.route('/:id')
-    .get(patientController.findOne)
-    .delete(patientController.delete)
-    .put(patientController.update);
+    .get(passport.authenticate('jwt', {session: false}), patientController.findOne)
+    .delete(passport.authenticate('jwt', {session: false}), patientController.delete)
+    .put(passport.authenticate('jwt', {session: false}), patientController.update);

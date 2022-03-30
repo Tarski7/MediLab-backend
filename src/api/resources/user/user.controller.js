@@ -46,5 +46,9 @@ export default {
             console.error(err);
             return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err);
         }
+    },
+
+    async test(req, res) {
+        return res.json(req.user);
     }
 }

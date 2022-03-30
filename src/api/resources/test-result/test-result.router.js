@@ -1,13 +1,14 @@
 import express from "express";
 import testResultController from "./test-result.controller";
+import passport from 'passport';
 
 export const testResultRouter = express.Router();
 
 testResultRouter.route('/')
-    .get(testResultController.findAll)
-    .post(testResultController.create);
+    .get(passport.authenticate('jwt', {session: false}), testResultController.findAll)
+    .post(passport.authenticate('jwt', {session: false}), testResultController.create);
 
 testResultRouter.route('/:id')
-    .get(testResultController.findOne)
-    .delete(testResultController.delete)
-    .put(testResultController.update);
+    .get(passport.authenticate('jwt', {session: false}), testResultController.findOne)
+    .delete(passport.authenticate('jwt', {session: false}), testResultController.delete)
+    .put(passport.authenticate('jwt', {session: false}), testResultController.update);

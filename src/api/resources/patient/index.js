@@ -1,1 +1,1 @@
-export * from './patient.router'
+export { patientRouter } from './patient.router'

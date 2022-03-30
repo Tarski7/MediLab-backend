@@ -1,0 +1,23 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.patientRouter = undefined;
+
+var _express = require("express");
+
+var _express2 = _interopRequireDefault(_express);
+
+var _patient = require("./patient.controller");
+
+var _patient2 = _interopRequireDefault(_patient);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var patientRouter = exports.patientRouter = _express2.default.Router();
+
+patientRouter.route('/').post(_patient2.default.create).get(_patient2.default.findAll);
+
+patientRouter.route('/:id').get(_patient2.default.findOne).delete(_patient2.default.delete).put(_patient2.default.update);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL3NyYy9hcGkvcmVzb3VyY2VzL3BhdGllbnQvcGF0aWVudC5yb3V0ZXIuanMiXSwibmFtZXMiOlsicGF0aWVudFJvdXRlciIsImV4cHJlc3MiLCJSb3V0ZXIiLCJyb3V0ZSIsInBvc3QiLCJwYXRpZW50Q29udHJvbGxlciIsImNyZWF0ZSIsImdldCIsImZpbmRBbGwiLCJmaW5kT25lIiwiZGVsZXRlIiwicHV0IiwidXBkYXRlIl0sIm1hcHBpbmdzIjoiOzs7Ozs7O0FBQUE7Ozs7QUFDQTs7Ozs7O0FBRU8sSUFBTUEsd0NBQWdCQyxrQkFBUUMsTUFBUixFQUF0Qjs7QUFFUEYsY0FBY0csS0FBZCxDQUFvQixHQUFwQixFQUNLQyxJQURMLENBQ1VDLGtCQUFrQkMsTUFENUIsRUFFS0MsR0FGTCxDQUVTRixrQkFBa0JHLE9BRjNCOztBQUlBUixjQUFjRyxLQUFkLENBQW9CLE1BQXBCLEVBQ0tJLEdBREwsQ0FDU0Ysa0JBQWtCSSxPQUQzQixFQUVLQyxNQUZMLENBRVlMLGtCQUFrQkssTUFGOUIsRUFHS0MsR0FITCxDQUdTTixrQkFBa0JPLE1BSDNCIiwiZmlsZSI6InBhdGllbnQucm91dGVyLmpzIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IGV4cHJlc3MgZnJvbSBcImV4cHJlc3NcIjtcclxuaW1wb3J0IHBhdGllbnRDb250cm9sbGVyIGZyb20gXCIuL3BhdGllbnQuY29udHJvbGxlclwiO1xyXG5cclxuZXhwb3J0IGNvbnN0IHBhdGllbnRSb3V0ZXIgPSBleHByZXNzLlJvdXRlcigpO1xyXG5cclxucGF0aWVudFJvdXRlci5yb3V0ZSgnLycpXHJcbiAgICAucG9zdChwYXRpZW50Q29udHJvbGxlci5jcmVhdGUpXHJcbiAgICAuZ2V0KHBhdGllbnRDb250cm9sbGVyLmZpbmRBbGwpO1xyXG5cclxucGF0aWVudFJvdXRlci5yb3V0ZSgnLzppZCcpXHJcbiAgICAuZ2V0KHBhdGllbnRDb250cm9sbGVyLmZpbmRPbmUpXHJcbiAgICAuZGVsZXRlKHBhdGllbnRDb250cm9sbGVyLmRlbGV0ZSlcclxuICAgIC5wdXQocGF0aWVudENvbnRyb2xsZXIudXBkYXRlKTsiXX0=

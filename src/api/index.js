@@ -1,7 +1,7 @@
 import express from "express";
-import { patientRouter } from "./resources/patient/patient.router";
+import { patientRouter } from "./resources/patient";
 import { testResultRouter } from "./resources/test-result";
-import { userRouter } from "./resources/user/user.router";
+import { userRouter } from "./resources/user";
 
 export const restRouter = express.Router();
 restRouter.use('/test-results', testResultRouter);

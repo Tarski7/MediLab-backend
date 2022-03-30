@@ -9,7 +9,7 @@ var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
 
-var _testResult = require('../api/controllers/test-result.controller');
+var _testResult = require('../api/resources/test-result/test-result.controller');
 
 var _testResult2 = _interopRequireDefault(_testResult);
 
@@ -18,4 +18,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var router = exports.router = _express2.default.Router();
 
 router.get('/test-results', _testResult2.default.findAll);
-//# sourceMappingURL=routes.js.map
+router.get('/test-results/:id', _testResult2.default.findOne);
+router.delete('/test-results/:id', _testResult2.default.delete);
+router.put('/test-results/:id', _testResult2.default.update);
+router.post('/test-results', _testResult2.default.create);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9jb25maWcvcm91dGVzLmpzIl0sIm5hbWVzIjpbInJvdXRlciIsImV4cHJlc3MiLCJSb3V0ZXIiLCJnZXQiLCJ0ZXN0UmVzdWx0Q29udHJvbGxlciIsImZpbmRBbGwiLCJmaW5kT25lIiwiZGVsZXRlIiwicHV0IiwidXBkYXRlIiwicG9zdCIsImNyZWF0ZSJdLCJtYXBwaW5ncyI6Ijs7Ozs7OztBQUFBOzs7O0FBQ0E7Ozs7OztBQUVPLElBQU1BLDBCQUFTQyxrQkFBUUMsTUFBUixFQUFmOztBQUVQRixPQUFPRyxHQUFQLENBQVcsZUFBWCxFQUE0QkMscUJBQXFCQyxPQUFqRDtBQUNBTCxPQUFPRyxHQUFQLENBQVcsbUJBQVgsRUFBZ0NDLHFCQUFxQkUsT0FBckQ7QUFDQU4sT0FBT08sTUFBUCxDQUFjLG1CQUFkLEVBQW1DSCxxQkFBcUJHLE1BQXhEO0FBQ0FQLE9BQU9RLEdBQVAsQ0FBVyxtQkFBWCxFQUFnQ0oscUJBQXFCSyxNQUFyRDtBQUNBVCxPQUFPVSxJQUFQLENBQVksZUFBWixFQUE2Qk4scUJBQXFCTyxNQUFsRCIsImZpbGUiOiJyb3V0ZXMuanMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgZXhwcmVzcyBmcm9tICdleHByZXNzJztcclxuaW1wb3J0IHRlc3RSZXN1bHRDb250cm9sbGVyIGZyb20gJy4uL2FwaS9yZXNvdXJjZXMvdGVzdC1yZXN1bHQvdGVzdC1yZXN1bHQuY29udHJvbGxlcic7XHJcblxyXG5leHBvcnQgY29uc3Qgcm91dGVyID0gZXhwcmVzcy5Sb3V0ZXIoKTtcclxuXHJcbnJvdXRlci5nZXQoJy90ZXN0LXJlc3VsdHMnLCB0ZXN0UmVzdWx0Q29udHJvbGxlci5maW5kQWxsKTtcclxucm91dGVyLmdldCgnL3Rlc3QtcmVzdWx0cy86aWQnLCB0ZXN0UmVzdWx0Q29udHJvbGxlci5maW5kT25lKTtcclxucm91dGVyLmRlbGV0ZSgnL3Rlc3QtcmVzdWx0cy86aWQnLCB0ZXN0UmVzdWx0Q29udHJvbGxlci5kZWxldGUpO1xyXG5yb3V0ZXIucHV0KCcvdGVzdC1yZXN1bHRzLzppZCcsIHRlc3RSZXN1bHRDb250cm9sbGVyLnVwZGF0ZSk7XHJcbnJvdXRlci5wb3N0KCcvdGVzdC1yZXN1bHRzJywgdGVzdFJlc3VsdENvbnRyb2xsZXIuY3JlYXRlKTsiXX0=

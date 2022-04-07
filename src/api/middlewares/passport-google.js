@@ -17,7 +17,7 @@ export const configureGoogleStrategy = () => {
                 console.log('refreshToken ', refreshToken);
                 console.log('profile ', profile);
 
-                /*const user = await User.findOne({'google.id': profile.id});
+                const user = await User.findOne({'google.id': profile.id});
                 if (user) {
                     return done(null, user);
                 }
@@ -27,10 +27,9 @@ export const configureGoogleStrategy = () => {
                 newUser.google.token = accessToken;
                 newUser.google.displayName = profile.displayName;
                 newUser.google.email = profile.emails[0].value;
-                await newUser.save();*/
+                await newUser.save();
                 
-                //done(null, newUser);
-                done(null, profile);
+                done(null, newUser);
             }
             catch(err) {
                 console.error(err);

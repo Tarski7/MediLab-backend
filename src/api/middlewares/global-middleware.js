@@ -25,13 +25,12 @@ export const setGlobalMiddleware = app => {
 
     // save user into session
     passport.serializeUser((user, done) => {
-        done(null, user.id);
+        done(null, user._id);
     });
     // extract userId from session
     passport.deserializeUser((id, done) => {
-        done(null, {id: 'ASEgesges'});
-        /*User.findById(id, (err, user) => {
+        User.findById(id, (err, user) => {
             done(null, user);
-        });*/
+        });
     });
 }

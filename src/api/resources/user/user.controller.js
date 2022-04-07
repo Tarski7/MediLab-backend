@@ -13,7 +13,18 @@ export default {
                 return res.status(HttpStatus.BAD_REQUEST).json(error);
             }
 
-            const user = await User.create(value);
+            const existingUser = await User.findOne({'local.email': value.email});
+            if (existingUser) {
+                return res.status(HttpStatus.BAD_REQUEST).json({err: 'You have already created account'});
+            }
+
+            const user = await new User();
+            user.local.email = value.email;
+
+            const salt = await bcryptjs.genSalt();
+            const hash = await bcryptjs.hash(value.password, salt);
+            user.local.password = hash;
+            await user.save();
 
             return res.json({success: true, message: 'User created successfully'});
         } catch(err) {
@@ -29,7 +40,7 @@ export default {
                 return res.status(HttpStatus.BAD_REQUEST).json(error);
             }
 
-            const user = await User.findOne({email: value.email});
+            const user = await User.findOne({'local.email': value.email});
             if (!user) {
                 return res.status(HttpStatus.BAD_REQUEST).json({err: 'Invalid email or password'});
             }

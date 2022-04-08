@@ -7,6 +7,7 @@ import { configureGoogleStrategy } from './passport-google';
 import { devConfig } from '../../config/env/development';
 import session from 'express-session';
 import User from '../resources/user/user.model';
+import { configureGithubStrategy } from './passport-github';
 
 export const setGlobalMiddleware = app => {
     app.use(express.json());
@@ -22,6 +23,7 @@ export const setGlobalMiddleware = app => {
     app.use(passport.session());
     configureJWTStrategy();
     configureGoogleStrategy();
+    configureGithubStrategy();
 
     // save user into session
     passport.serializeUser((user, done) => {
@@ -32,5 +34,9 @@ export const setGlobalMiddleware = app => {
         User.findById(id, (err, user) => {
             done(null, user);
         });
+    });
+
+    app.get('/failure', (req, res) => {
+        return res.redirect('http://localhost:4200/login');
     });
 }

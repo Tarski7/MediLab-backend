@@ -18,3 +18,5 @@ authRouter.get('/github/callback', passport.authenticate('github', {
 }), authController.sendJWTToken);
 
 authRouter.get('/authenticate', passport.authenticate('jwt', {session: false}), authController.authenticate);
+
+authRouter.get('/logout', passport.authenticate('jwt', {session: false}), authController.logout);

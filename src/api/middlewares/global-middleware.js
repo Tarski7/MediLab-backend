@@ -19,7 +19,7 @@ export const setGlobalMiddleware = app => {
         resave: true,
         saveUninitialized: true
     }));
-    app.use(passport.initialize());
+    app.use(passport.initialize({ userProperty: 'currentUser' }));
     app.use(passport.session());
     configureJWTStrategy();
     configureGoogleStrategy();

@@ -49,6 +49,7 @@ export default {
     findOne(req, res) {
         let {id} = req.params;
         TestResult.findById(id)
+            .populate('patient')
             .then(testResult => {
                 if (!testResult) {
                     return res.status(HttpStatus.NOT_FOUND).json({err: 'Test result not found'});

@@ -1,6 +1,8 @@
 import TestResult from "./test-result.model";
 import Joi from 'joi';
 import HttpStatus from 'http-status-codes';
+import testResultService from "./test-result.service";
+import userService from "../user/user.service";
 
 export default {
     findAll(req, res, next) {
@@ -91,5 +93,28 @@ export default {
         TestResult.findOneAndUpdate({_id: id}, value, {new: true})
             .then(testResult => res.json(testResult))
             .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err));
+    },
+
+    async download(req, res) {
+        try {
+            const {id} = req.params;
+            const testResult = await TestResult.findById(id).populate('patient');
+            if (!testResult) {
+                return res.status(HttpStatus.NOT_FOUND).send({err: 'Could not find any test result'});
+            }
+
+            const user = userService.getUser(req.currentUser);
+
+            const templateBody = testResultService.getTemplateBody(testResult, user);
+            const html = testResultService.getTestResultTemplate(templateBody);
+
+            res.pdfFromHTML({
+                filename: `${testResult.name}.pdf`,
+                htmlContent: html
+            });
+        } catch(err) {
+            console.error(err);
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

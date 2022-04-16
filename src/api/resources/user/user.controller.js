@@ -8,7 +8,7 @@ import { devConfig } from "../../../config/env/development";
 export default {
     async signup(req, res) {
         try {
-            const {error, value} = userService.validateSchema(req.body);
+            const {error, value} = userService.validateSignupSchema(req.body);
             if (error && error.details) {
                 return res.status(HttpStatus.BAD_REQUEST).json(error);
             }
@@ -20,6 +20,7 @@ export default {
 
             const user = await new User();
             user.local.email = value.email;
+            user.local.name = value.name;
 
             const salt = await bcryptjs.genSalt();
             const hash = await bcryptjs.hash(value.password, salt);
@@ -35,7 +36,7 @@ export default {
 
     async login(req, res) {
         try {
-            const {error, value} = userService.validateSchema(req.body);
+            const {error, value} = userService.validateLoginSchema(req.body);
             if (error && error.details) {
                 return res.status(HttpStatus.BAD_REQUEST).json(error);
             }

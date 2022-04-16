@@ -12,3 +12,5 @@ testResultRouter.route('/:id')
     .get(passport.authenticate('jwt', {session: false}), testResultController.findOne)
     .delete(passport.authenticate('jwt', {session: false}), testResultController.delete)
     .put(passport.authenticate('jwt', {session: false}), testResultController.update);
+
+testResultRouter.get('/:id/download', passport.authenticate('jwt', {session: false}), testResultController.download);

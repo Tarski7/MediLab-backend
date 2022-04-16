@@ -8,11 +8,13 @@ import { devConfig } from '../../config/env/development';
 import session from 'express-session';
 import User from '../resources/user/user.model';
 import { configureGithubStrategy } from './passport-github';
+import pdf from 'express-pdf';
 
 export const setGlobalMiddleware = app => {
     app.use(express.json());
     app.use(express.urlencoded({extended: true}));
     app.use(cors());
+    app.use(pdf);
     app.use(logger('dev'));
     app.use(session({
         secret: devConfig.secret,

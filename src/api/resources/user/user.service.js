@@ -30,6 +30,19 @@ export default {
         return { value };
     },
 
+    validateForgotSchema(body) {
+        const schema = Joi.object().keys({
+            email: Joi.string().email().required()
+        });
+
+        const { error, value } = schema.validate(body);
+        if (error && error.details) {
+            return { error };
+        }
+
+        return { value };
+    },
+
     getUser(user) {
         let rsp = {};
         if (user.local.email) {

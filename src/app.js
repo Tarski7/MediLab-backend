@@ -345,7 +345,7 @@ const swaggerOptions = {
                             in: "body",
                             required: true,
                             schema: {
-                                $ref: "#definitions/User"
+                                $ref: "#definitions/SignupUser"
                             }
                         }
                     ],
@@ -549,7 +549,25 @@ const swaggerOptions = {
                         "type": "string"
                     }
                 }
-            }
+            },
+            SignupUser: {
+                required: ["email", "password", "name"],
+                properties: {
+                    _id: {
+                        "type": "string",
+                        "uniqueItems": true
+                    },
+                    email: {
+                        "type": "string"
+                    },
+                    password: {
+                        "type": "string"
+                    },
+                    name: {
+                        "type": "string"
+                    }
+                }
+            },
         }
     },
     apis: ["app.js"]
